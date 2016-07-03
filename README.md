@@ -1,0 +1,2 @@
+# AndroidStudio-LocalScanner-App
+Find out who is using your wifi with a smal and fast local area network scanner from Hive Mind at the push of a button. This aplication offers a minimalistic user interface that is concise and easy to understand. It will present you with your device's internal IP address, MAC address, wireless signal strength as well as all other devices on your local network with their internal IP and MAC. Code by Zero Davila.
