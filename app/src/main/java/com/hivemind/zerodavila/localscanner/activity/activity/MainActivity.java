@@ -32,13 +32,9 @@ import java.util.Map;
 
 public class MainActivity extends Activity implements MainAsyncResponse {
 
-    private final static int TIMER_INTERVAL = 1500;
-
     private Wireless wifi;
     private Discovery discovery = new Discovery();
     private ListView hostList;
-    private TextView internalIp;
-    private TextView signalStrength;
     private ProgressDialog scanProgressDialog;
     private Handler mHandler = new Handler();
     private BroadcastReceiver receiver;
@@ -46,21 +42,15 @@ public class MainActivity extends Activity implements MainAsyncResponse {
     private ArrayAdapter hostsAdapter;
     private List<Map<String, String>> hosts = new ArrayList<>();
 
-//---------- savedInstanceState Data from a saved state --------------
+    //savedInstanceState Data from a saved state
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        this.internalIp = (TextView) findViewById(R.id.internalIpAddress);
-        this.signalStrength = (TextView) findViewById(R.id.signalStrength);
         this.hostList = (ListView) findViewById(R.id.hostList);
-
         this.wifi = new Wireless(this);
-
         this.setupHostsAdapter();
         this.setupReceivers();
-        this.setupMac();
         this.setupHostDiscovery();
     }
 
@@ -71,8 +61,7 @@ public class MainActivity extends Activity implements MainAsyncResponse {
                 View view = super.getView(position, convertView, parent);
                 TextView text1 = (TextView) view.findViewById(android.R.id.text1);
                 TextView text2 = (TextView) view.findViewById(android.R.id.text2);
-                text2.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.icsblue));
-
+                text2.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.grey));
                 text1.setText(hosts.get(position).get("First Line"));
                 text2.setText(hosts.get(position).get("Second Line"));
                 return view;
@@ -81,18 +70,11 @@ public class MainActivity extends Activity implements MainAsyncResponse {
         this.hostList.setAdapter(this.hostsAdapter);
     }
 
-//------------------------- Set MAC address ---------------------------------
-    private void setupMac() {
-        TextView macAddress = (TextView) findViewById(R.id.deviceMacAddress);
-        String mac = this.wifi.getMacAddress();
-        macAddress.setText(mac);
-    }
-
     private void setupHostDiscovery() {
         Button discoverHosts = (Button) findViewById(R.id.discoverHosts);
         discoverHosts.setOnClickListener(new View.OnClickListener() {
 
-//--------------- Click handler to perform host discovery --------------------
+            //Click handler to perform host discovery
             @Override
             public void onClick(View v) {
                 if (!wifi.isConnectedWifi()) {
@@ -117,46 +99,22 @@ public class MainActivity extends Activity implements MainAsyncResponse {
     private void setupReceivers() {
         this.receiver = new BroadcastReceiver() {
 
-            /**
-             * Detect if a network connection has been lost or established
-             * @param context
-             * @param intent
-             */
+            //Detect if a network connection has been lost
             @Override
             public void onReceive(Context context, Intent intent) {
                 NetworkInfo info = intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
-                if (info != null) {
-                    if (info.isConnected()) {
-                        getNetworkInfo();
-                    } else {
-                        mHandler.removeCallbacksAndMessages(null);
-                        internalIp.setText(wifi.getInternalMobileIpAddress());
-                        signalStrength.setText(R.string.noWifi);
-
-                    }
+                if (info == null) {
+                    mHandler.removeCallbacksAndMessages(null);
                 }
             }
         };
-
         this.intentFilter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
         registerReceiver(receiver, this.intentFilter);
-    }
-
-    private void getNetworkInfo() {
-        this.mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                signalStrength.setText(String.valueOf(wifi.getSignalStrength()) + " dBm");
-                mHandler.postDelayed(this, TIMER_INTERVAL);
-            }
-        }, 0);
-        this.internalIp.setText(this.wifi.getInternalWifiIpAddress());
     }
 
     @Override
     public void onPause() {
         super.onPause();
-
         if (this.scanProgressDialog != null && this.scanProgressDialog.isShowing()) {
             this.scanProgressDialog.dismiss();
         }
@@ -201,25 +159,20 @@ public class MainActivity extends Activity implements MainAsyncResponse {
                     } else {
                         hosts.set(hosts.indexOf(output), output);
                     }
-
                     Collections.sort(hosts, new Comparator<Map<String, String>>() {
-
                         @Override
                         public int compare(Map<String, String> lhs, Map<String, String> rhs) {
                             int left = Integer.parseInt(lhs.get("Second Line").substring(lhs.get("Second Line").lastIndexOf(".") + 1, lhs.get("Second Line").indexOf("[") - 1));
                             int right = Integer.parseInt(rhs.get("Second Line").substring(rhs.get("Second Line").lastIndexOf(".") + 1, rhs.get("Second Line").indexOf("[") - 1));
                             return left - right;
-
                         }
                     });
                     hostsAdapter.notifyDataSetChanged();
                 }
-
                  if (scanProgressDialog != null && scanProgressDialog.isShowing()) {
                     scanProgressDialog.dismiss();
                 }
             }
-
         });
     }
 
@@ -228,9 +181,5 @@ public class MainActivity extends Activity implements MainAsyncResponse {
         if (this.scanProgressDialog != null && this.scanProgressDialog.isShowing()) {
             this.scanProgressDialog.incrementProgressBy(output);
         }
-    }
-
-    @Override
-    public void processFinish(String output) {
     }
 }
