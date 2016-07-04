@@ -1,21 +1,35 @@
 <resources>
 
     <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
+<<<<<<< HEAD
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryDark">@color/black</item>
+        <item name="colorAccent">@color/grey</item>
+=======
         <item name="colorPrimary">@color/icsblue</item>
         <item name="colorPrimaryDark">@color/black</item>
         <item name="colorAccent">@color/icsblue</item>
         <item name="android:textColorSecondary">@color/white</item>
+>>>>>>> 10d00b732277dc23876ee147e0d2cf2407bc4b84
     </style>
 
     <style name="DialogTheme" parent="Theme.AppCompat.Dialog">
         <item name="android:layout_gravity">center</item>
+<<<<<<< HEAD
+        <item name="colorPrimary">@color/grey</item>
+        <item name="colorPrimaryDark">@color/black</item>
+        <item name="colorAccent">@color/grey</item>
+=======
         <item name="colorPrimary">@color/icsblue</item>
         <item name="colorPrimaryDark">@color/black</item>
         <item name="colorAccent">@color/icsblue</item>
+>>>>>>> 10d00b732277dc23876ee147e0d2cf2407bc4b84
         <item name="android:background">@color/black</item>
         <item name="android:gravity">center</item>
     </style>
 
+<<<<<<< HEAD
+=======
     <style name="DeviceInfoItem">
         <item name="android:padding">5dp</item>
         <item name="android:background">@drawable/cell_shape</item>
@@ -27,4 +41,5 @@
         <item name="android:textColorSecondary">@color/white</item>
         <item name="android:windowBackground">@color/black</item>
     </style>
+>>>>>>> 10d00b732277dc23876ee147e0d2cf2407bc4b84
 </resources>

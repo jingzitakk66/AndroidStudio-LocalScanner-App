@@ -3,8 +3,14 @@
 
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
+<<<<<<< HEAD
+    <color name="grey">#a1a1a1</color>
+    <color name="icsblue">#33B5E5</color>
+
+=======
     <color name="green">#00ff00</color>
     <color name="icsblue">#33B5E5</color>
 
 
+>>>>>>> 10d00b732277dc23876ee147e0d2cf2407bc4b84
 </resources>
