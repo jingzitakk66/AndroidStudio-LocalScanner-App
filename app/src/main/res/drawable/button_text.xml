@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
+<<<<<<< HEAD
+    <item android:state_pressed="true" android:color="@color/icsblue" />
+    <item android:color="@color/white" />
+=======
     <item android:state_pressed="true" android:color="@color/white" />
     <item android:color="@color/green" />
+>>>>>>> 10d00b732277dc23876ee147e0d2cf2407bc4b84
 
 </selector>
