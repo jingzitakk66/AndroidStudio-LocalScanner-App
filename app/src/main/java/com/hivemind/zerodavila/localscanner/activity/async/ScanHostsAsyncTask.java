@@ -21,27 +21,17 @@ public class ScanHostsAsyncTask extends AsyncTask<String, Void, Void> {
     private final int SCAN_THREADS = 8;
     private final int HOST_THREADS = 255;
 
-    /**
-     * Constructor to set the delegate
-     *
-     * @param delegate Called when host discovery has finished
-     */
+    //Constructor to set the delegate
     public ScanHostsAsyncTask(MainAsyncResponse delegate) {
         this.delegate = delegate;
     }
 
-    /**
-     * Scans for active hosts on the network
-     *
-     * @param params IP address
-     */
+    //Scans for active hosts on the network
     @Override
     protected Void doInBackground(String... params) {
         String ip = params[0];
         String parts[] = ip.split("\\.");
-
         ExecutorService executor = Executors.newFixedThreadPool(SCAN_THREADS);
-
         int chunk = (int) Math.ceil((double) 255 / SCAN_THREADS);
         int previousStart = 1;
         int previousStop = chunk;
@@ -56,7 +46,6 @@ public class ScanHostsAsyncTask extends AsyncTask<String, Void, Void> {
             previousStart = previousStop + 1;
             previousStop = previousStop + chunk;
         }
-
         executor.shutdown();
 
         try {
@@ -68,15 +57,11 @@ public class ScanHostsAsyncTask extends AsyncTask<String, Void, Void> {
         return null;
     }
 
-    /**
-     * Scans the ARP table and updates the list with hosts on the network
-     * Resolves both DNS and NetBIOS
-     *
-     * @param params
-     */
+    //Scans the ARP table and updates the list with hosts on the network
     @Override
     protected final void onProgressUpdate(final Void... params) {
         BufferedReader reader = null;
+
         try {
             ExecutorService executor = Executors.newFixedThreadPool(HOST_THREADS);
             reader = new BufferedReader(new FileReader("/proc/net/arp"));
@@ -124,7 +109,6 @@ public class ScanHostsAsyncTask extends AsyncTask<String, Void, Void> {
                             } catch (UnknownHostException ignored) {
                                 return;
                             }
-
                         }
                     });
                 }
